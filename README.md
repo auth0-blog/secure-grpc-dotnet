@@ -9,14 +9,16 @@ Clone the repo: `git clone https://github.com/auth0-blog/secure-grpc-dotnet.git`
 To run the `CreditRatingService` application:
 
 1. Move to the `CreditRatingService` folder 
-2. Type `dotnet run` in a terminal window
+2. Fill the `appsettings.json` file with the registered API parameters from Auth0
+3. Type `dotnet run` in a terminal window
 
 
 
 To run the `CreditRatingClient` application:
 
 1. Move to the `CreditRatingClient` folder 
-2. Type `dotnet run` in a terminal window
+2. Fill the `appsettings.json` file with the registered M2M Application parameters from Auth0
+3. Type `dotnet run` in a terminal window
 
 
 

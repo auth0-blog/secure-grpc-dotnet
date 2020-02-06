@@ -71,18 +71,14 @@ namespace CreditRatingClient
     {
       var appAuth0Settings = GetAppSettings().GetSection("Auth0");
 
-            var requestContent = JsonSerializer.Serialize(new {
-                client_id = appAuth0Settings["ClientId"],
-                client_secret = appAuth0Settings["ClientSecret"],
-                audience = appAuth0Settings["Audience"],
-                grant_type = "client_credentials"
-            });
-      //var requestContent = $"{{" +
-      //        $"\"client_id\":\"{appAuth0Settings["ClientId"]}\"," +
-      //        $"\"client_secret\":\"{appAuth0Settings["ClientSecret"]}\"," +
-      //        $"\"audience\":\"{appAuth0Settings["Audience"]}\"," +
-      //        $"\"grant_type\":\"client_credentials\"" +
-      //    $"}}";
+      var requestContent = JsonSerializer.Serialize(new
+      {
+        client_id = appAuth0Settings["ClientId"],
+        client_secret = appAuth0Settings["ClientSecret"],
+        audience = appAuth0Settings["Audience"],
+        grant_type = "client_credentials"
+      });
+
       var response = await httpClient.PostAsync($"https://{appAuth0Settings["Domain"]}/oauth/token",
               new StringContent(requestContent,
               UnicodeEncoding.UTF8,
