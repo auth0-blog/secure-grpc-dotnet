@@ -5,18 +5,14 @@ using Grpc.Net.Client;
 using System.Runtime.InteropServices;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using System.Net.Http;
 using Grpc.Core;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-
+using Auth0.AuthenticationApi;
+using Auth0.AuthenticationApi.Models;
 
 namespace CreditRatingClient
 {
   class Program
   {
-    private static readonly HttpClient httpClient = new HttpClient();
     static async Task Main(string[] args)
     {
       var serverAddress = "https://localhost:5001";
@@ -70,24 +66,16 @@ namespace CreditRatingClient
     static async Task<string> GetAccessToken()
     {
       var appAuth0Settings = GetAppSettings().GetSection("Auth0");
-
-      var requestContent = JsonSerializer.Serialize(new
+      var auth0Client = new AuthenticationApiClient(appAuth0Settings["Domain"]);
+      var tokenRequest = new ClientCredentialsTokenRequest()
       {
-        client_id = appAuth0Settings["ClientId"],
-        client_secret = appAuth0Settings["ClientSecret"],
-        audience = appAuth0Settings["Audience"],
-        grant_type = "client_credentials"
-      });
+        ClientId = appAuth0Settings["ClientId"],
+        ClientSecret = appAuth0Settings["ClientSecret"],
+        Audience = appAuth0Settings["Audience"]
+      };
+      var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
 
-      var response = await httpClient.PostAsync($"https://{appAuth0Settings["Domain"]}/oauth/token",
-              new StringContent(requestContent,
-              UnicodeEncoding.UTF8,
-              "application/json"));
-      var responseString = response.Content.ReadAsStringAsync().Result;
-
-      var responseObj = JsonSerializer.Deserialize<Dictionary<string, Object>>(responseString);
-
-      return responseObj["access_token"].ToString();
+      return tokenResponse.AccessToken;
     }
 
     private async static Task<GrpcChannel> CreateAuthorizedChannel(string address)
