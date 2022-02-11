@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Auth0.AuthenticationApi" Version="7.0.0" />
-    <PackageReference Include="Google.Protobuf" Version="3.10.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.15.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.25.0" />
     <PackageReference Include="Grpc.Tools" Version="2.25.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
